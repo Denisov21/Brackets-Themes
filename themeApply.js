@@ -5,10 +5,9 @@
  */
 
 
-define(function(require) {
+define(function() {
     "use strict";
 
-    var _ = brackets.getModule("thirdparty/lodash");
     var ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
 
     /**

@@ -29,10 +29,6 @@ define(function(require) {
     }
 
 
-    function loadFile(file) {
-    }
-
-
     /**
     *  Return all the files in the specified path
     */

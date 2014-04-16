@@ -5,7 +5,7 @@
  */
 
 
-define(function(require) {
+define(function() {
     "use strict";
     var Menus = brackets.getModule("command/Menus");
     return Menus.addMenu("Themes", "editortheme", Menus.BEFORE, Menus.AppMenuBar.HELP_MENU);

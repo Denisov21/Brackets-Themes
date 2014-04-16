@@ -5,10 +5,8 @@
  */
 
 
-define(function (require, exports, module) {
+define(function () {
     "use strict";
-
-    var spromise  = require("lib/spromise");
 
     function initAddons() {
         // Set some default value for codemirror...
@@ -17,15 +15,17 @@ define(function (require, exports, module) {
     }
 
     function init() {
+        var deferred = $.Deferred();
+
         /**
         *  This is where is all starts to load up...
         */
-        return spromise(function(resolve) {
-            brackets.getModule([
-                "thirdparty/CodeMirror2/addon/selection/mark-selection",
-                "thirdparty/CodeMirror2/addon/search/match-highlighter"
-            ], resolve);
-        }).done(initAddons);
+        brackets.getModule([
+            "thirdparty/CodeMirror2/addon/selection/mark-selection",
+            "thirdparty/CodeMirror2/addon/search/match-highlighter"
+        ], deferred.resolve);
+
+        return deferred.done(initAddons).promise();
     }
 
     return {
