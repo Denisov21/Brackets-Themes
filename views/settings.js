@@ -5,7 +5,7 @@
  */
 
 
-define(function(require, exports, module) {
+define(function(require) {
     "use strict";
 
     var _ = brackets.getModule("thirdparty/lodash");
