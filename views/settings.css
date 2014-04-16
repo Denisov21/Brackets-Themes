@@ -1,11 +1,3 @@
-.themeSettings * {
-/*
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-*/
-}
-
 .themeSettings td {
     padding: 2px;
 }
@@ -18,10 +10,6 @@
 
 .themeSettings .row {
     margin: 0px;
-}
-
-.themeSettings .paths-header {
-    height: 24px;
 }
 
 .themeSettings .label {
