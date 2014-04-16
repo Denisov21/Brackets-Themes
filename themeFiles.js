@@ -88,7 +88,6 @@ define(function(require) {
 
     return {
         ready: init().done,
-        loadFile: loadFile,
         loadDirectory: loadDirectory
     };
 
