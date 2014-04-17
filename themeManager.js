@@ -15,6 +15,7 @@ define(function (require) {
 
     var settings            = require("settings"),
         Theme               = require("theme"),
+        themeSettings       = require("views/settings"),
         themeFiles          = require("themeFiles"),
         themeApply          = require("themeApply"),
         scrollbarsApply     = require("scrollbarsApply"),
@@ -43,35 +44,6 @@ define(function (require) {
     }
 
 
-    /**
-    *  Create theme objects and add them to the global themes container.
-    */
-    function loadThemesMenu(themes, lastItem) {
-        //
-        // Iterate through each name in the themes and make them theme objects
-        //
-        _.each(themes, function (theme) {
-            // Create the command id used by the menu
-            var COMMAND_ID = "theme." + theme.name;
-
-            // Register menu event...
-            CommandManager.register(theme.displayName, COMMAND_ID, function () {
-                syncMenuSelection(false);
-                setThemesClass([theme.name]);
-                syncMenuSelection(true);
-                themeManager.update(true);
-            });
-
-            // Add theme menu item
-            menu.addMenuItem(COMMAND_ID);
-        });
-
-        if (themes.length !== 0 && !lastItem) {
-            menu.addMenuDivider();
-        }
-    }
-
-
     function loadSettingsMenu() {
         // Create the command id used by the menu
         var COMMAND_ID = "theme.settings";
@@ -82,16 +54,6 @@ define(function (require) {
         // Add theme menu item
         menu.addMenuItem(COMMAND_ID);
         menu.addMenuDivider();
-    }
-
-
-    function syncMenuSelection(val) {
-        _.each(themeManager.selected, function (item) {
-            var command = CommandManager.get("theme." + item);
-            if (command) {
-                command.setChecked(val);
-            }
-        });
     }
 
 
@@ -158,6 +120,10 @@ define(function (require) {
 
     $(settings).on("change:fontSize", function() {
         themeManager.update();
+    })
+    .on("change:theme", function(evt, theme) {
+        setThemesClass(theme);
+        themeManager.update(true);
     });
 
 
@@ -170,10 +136,8 @@ define(function (require) {
         }
 
         if ( refreshThemes === true ) {
-            settings.setValue("theme", themeManager.selected);
-
             loadThemes(themeManager.getThemes(), refreshThemes === true).done(function() {
-                setThemesClass(themeManager.selected);
+                setThemesClass(settings.getValue("theme"));
                 generalSettings(themeManager);
                 scrollbarsApply(themeManager);
 
@@ -186,7 +150,7 @@ define(function (require) {
 
 
     themeManager.getThemes = function() {
-        return _.map(themeManager.selected.slice(0), function (item) {
+        return _.map(settings.getValue("theme").slice(0), function (item) {
             return themeManager.themes[item];
         });
     };
@@ -205,8 +169,7 @@ define(function (require) {
             viewCommandsManager();
             loadSettingsMenu();
 
-            function returnTrue() {return true;}
-            var i, length, themes;
+            var i, length;
             var args = arguments;
 
             for ( i = 0, length = args.length; i < length; i++ ) {
@@ -215,19 +178,12 @@ define(function (require) {
                     continue;
                 }
 
-                themes = loadThemesFiles(args[i]);
-                loadThemesMenu( themes, i + 1 === length );
-
-                try {
-                    FileSystem.watch(FileSystem.getDirectoryForPath(args[i].path), returnTrue, returnTrue);
-                }
-                catch(ex) {
-                    console.log("=============> Themes file watch", ex);
-                }
+                loadThemesFiles(args[i]);
             }
 
-            syncMenuSelection(true);
             themeManager.update(true);
+            themeSettings.themes(themeManager.themes);
+
             $(EditorManager).on("activeEditorChange", function() {
                 themeManager.update();
             });

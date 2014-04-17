@@ -1,38 +1,45 @@
 <form class="form-horizontal">
     <div class="control-group">
         <label class="control-label">Current theme:</label>
-        <!-- ko foreach: settings.theme -->
         <div class="controls">
-            <label class="control-label" data-bind="html: $data" style="text-align:left;"></label>
+            <select>
+            {{#themes}}
+                <option style="text-align:left;" value="{{displayName}}" data-target="theme" theme-id="{{name}}">{{displayName}}</option>
+            {{/themes}}
+            </select>
         </div>
-        <!-- /ko -->
     </div>
 
     <div class="control-group">
         <label class="control-label">Custom scrollbars:</label>
         <div class="controls">
-            <input type="checkbox" data-bind="checked: settings.enableScrollbars">
+            {{#settings.enableScrollbars}}
+                <input type="checkbox" data-target="enableScrollbars" checked>
+            {{/settings.enableScrollbars}}
+            {{^settings.enableScrollbars}}
+                <input type="checkbox" data-target="enableScrollbars">
+            {{/settings.enableScrollbars}}
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label">Font size:</label>
         <div class="controls">
-            <input type="text" data-bind="value: settings.fontSize">
+            <input type="text" data-target="fontSize" value="{{settings.fontSize}}">
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label">Font type:</label>
         <div class="controls">
-            <input type="text" data-bind="value: settings.fontType">
+            <input type="text" data-target="fontType" value="{{settings.fontType}}">
         </div>
     </div>
-    
+
     <div class="control-group">
         <label class="control-label">Line height:</label>
         <div class="controls">
-            <input type="text" data-bind="value: settings.lineHeight">
+            <input type="text" data-target="lineHeight" value="{{settings.lineHeight}}">
         </div>
     </div>
 </form>
