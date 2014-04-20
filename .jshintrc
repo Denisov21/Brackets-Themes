@@ -13,6 +13,7 @@
     "_": true,
     "brackets": true,
     "CodeMirror": true,
-    "Mustache": true
+    "Mustache": true,
+    "setTimeout": true
   }
 }
