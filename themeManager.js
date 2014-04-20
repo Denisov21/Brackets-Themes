@@ -76,6 +76,9 @@ define(function (require) {
 
 
     function refresh(cm) {
+        // Really dislike timing issues with CodeMirror.  I have to refresh
+        // the editor after a little bit of time to make sure that themes
+        // are properly applied to quick edit widgets
         setTimeout(function(){
             cm.refresh();
             EditorManager.resizeEditor();
