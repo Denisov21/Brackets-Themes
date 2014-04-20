@@ -8,25 +8,12 @@
 define(function(require) {
     "use strict";
 
-    var FileUtils   = brackets.getModule("file/FileUtils"),
-        FileSystem  = brackets.getModule("filesystem/FileSystem"),
+    var FileSystem  = brackets.getModule("filesystem/FileSystem"),
         Settings    = require("Settings"),
         paths       = Settings.getValue("paths");
 
     // Root directory for CodeMirror themes
-    var cm_path = FileUtils.getNativeBracketsDirectoryPath() + "/thirdparty/CodeMirror2";
     var validExtensions = ["css", "less"];
-
-    // Default paths
-    if ( !paths ) {
-        paths = [
-            {path:require.toUrl("./") + "../../themes"},
-            {path:require.toUrl("./theme/")},
-            {path:cm_path + "/theme"}
-        ];
-
-        Settings.setValue("paths", paths);
-    }
 
 
     /**

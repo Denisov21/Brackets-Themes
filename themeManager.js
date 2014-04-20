@@ -29,11 +29,6 @@ define(function (require) {
 
     var _initted = false;
 
-    if ( themeManager.selected === undefined ) {
-        settings.setValue("theme",  ["default"]);
-        themeManager.selected = ["default"];
-    }
-
 
     /**
     * Process theme meta deta to create theme instances

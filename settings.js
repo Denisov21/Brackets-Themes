@@ -10,6 +10,7 @@ define(function (require) {
 
     var _ = brackets.getModule("thirdparty/lodash");
     var PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
+        Defaults           = require("Defaults"),
         SettingsDialog     = require("views/settings"),
         PREFERENCES_KEY    = "brackets-themes",
         _settings          = PreferencesManager.getExtensionPrefs(PREFERENCES_KEY);
@@ -46,6 +47,45 @@ define(function (require) {
             }
         });
     };
+
+    Settings.reset = function() {
+        Settings.setValue("paths", Defaults.paths);
+        Settings.setValue("theme",  Defaults.theme);
+        Settings.setValue("fontSize", Defaults.fontSize + "px");
+        Settings.setValue("lineHeight", Defaults.lineHeight);
+        Settings.setValue("fontType", Defaults.fontType);
+        Settings.setValue("customScrollbars", Defaults.customScrollbars);
+    };
+
+
+    ///
+    ///  Make sure we have good default values.
+    ///
+
+
+    if ( Settings.getValue("paths") === (void 0) ) {
+        Settings.setValue("paths", Defaults.paths);
+    }
+
+    if ( Settings.getValue("theme") === (void 0) ) {
+        Settings.setValue("theme",  Defaults.theme);
+    }
+
+    if ( Settings.getValue("fontSize") === (void 0) ) {
+        Settings.setValue("fontSize", Defaults.fontSize + "px");
+    }
+
+    if ( Settings.getValue("lineHeight") === (void 0) ) {
+        Settings.setValue("lineHeight", Defaults.lineHeight);
+    }
+
+    if ( Settings.getValue("fontType") === (void 0) ) {
+        Settings.setValue("fontType", Defaults.fontType);
+    }
+
+    if ( Settings.getValue("customScrollbars") === (void 0) ) {
+        Settings.setValue("customScrollbars", Defaults.customScrollbars);
+    }
 
     return Settings;
 });

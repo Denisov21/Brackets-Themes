@@ -11,14 +11,14 @@
     </div>
 
     <div class="control-group">
-        <label class="control-label">Custom scrollbars:</label>
+        <label class="control-label">Custom Scrollbars:</label>
         <div class="controls">
-            {{#settings.enableScrollbars}}
-                <input type="checkbox" data-target="enableScrollbars" checked>
-            {{/settings.enableScrollbars}}
-            {{^settings.enableScrollbars}}
-                <input type="checkbox" data-target="enableScrollbars">
-            {{/settings.enableScrollbars}}
+            {{#settings.customScrollbars}}
+                <input type="checkbox" data-target="customScrollbars" checked>
+            {{/settings.customScrollbars}}
+            {{^settings.customScrollbars}}
+                <input type="checkbox" data-target="customScrollbars">
+            {{/settings.customScrollbars}}
         </div>
     </div>
 
