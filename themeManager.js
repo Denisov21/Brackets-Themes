@@ -10,7 +10,6 @@ define(function (require) {
 
     var _ = brackets.getModule("thirdparty/lodash");
     var EditorManager  = brackets.getModule("editor/EditorManager"),
-        CommandManager = brackets.getModule("command/CommandManager"),
         FileSystem     = brackets.getModule("filesystem/FileSystem");
 
     var settings            = require("settings"),
@@ -20,8 +19,7 @@ define(function (require) {
         themeApply          = require("themeApply"),
         scrollbarsApply     = require("scrollbarsApply"),
         generalSettings     = require("generalSettings"),
-        viewCommandsManager = require("viewCommandsManager"),
-        menu                = require("menu");
+        viewCommandsManager = require("viewCommandsManager");
 
     var themeManager = {
         selected: settings.getValue("theme"),
@@ -46,19 +44,6 @@ define(function (require) {
             var theme = new Theme({fileName: themeFile, path: themes.path});
             return (themeManager.themes[theme.name] = theme);
         });
-    }
-
-
-    function loadSettingsMenu() {
-        // Create the command id used by the menu
-        var COMMAND_ID = "theme.settings";
-
-        // Register menu event...
-        CommandManager.register("Settings", COMMAND_ID, settings.open);
-
-        // Add theme menu item
-        menu.addMenuItem(COMMAND_ID);
-        menu.addMenuDivider();
     }
 
 
@@ -123,13 +108,14 @@ define(function (require) {
     });
 
 
-    $(settings).on("change:fontSize", function() {
-        themeManager.update();
-    })
-    .on("change:theme", function(evt, theme) {
-        setThemesClass(theme);
-        themeManager.update(true);
-    });
+    $(settings)
+        .on("change:fontSize", function() {
+            themeManager.update();
+        })
+        .on("change:theme", function(evt, theme) {
+            setThemesClass(theme);
+            themeManager.update(true);
+        });
 
 
     themeManager.update = function(refreshThemes) {
@@ -172,7 +158,6 @@ define(function (require) {
         // themeManager.init has been called, this is generally ready
         themeFiles.ready(function() {
             viewCommandsManager();
-            loadSettingsMenu();
 
             var i, length;
             var args = arguments;

@@ -9,6 +9,7 @@ define(function (require, exports, module) {
     "use strict";
 
     require("string");
+    require("menu");
 
     var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
         AppInit         = brackets.getModule("utils/AppInit");

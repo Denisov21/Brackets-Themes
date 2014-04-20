@@ -5,8 +5,16 @@
  */
 
 
-define(function() {
+define(function(require) {
     "use strict";
-    var Menus = brackets.getModule("command/Menus");
-    return Menus.addMenu("Themes", "editortheme", Menus.BEFORE, Menus.AppMenuBar.HELP_MENU);
+    var Menus          = brackets.getModule("command/Menus"),
+        Commands       = brackets.getModule("command/Commands"),
+        CommandManager = brackets.getModule("command/CommandManager"),
+        settings       = require("settings");
+
+    var menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
+    var COMMAND_ID = "theme.settings";
+
+    CommandManager.register("Theme Settings...", COMMAND_ID, settings.open);
+    menu.addMenuItem(COMMAND_ID, null, Menus.AFTER, Commands.FILE_PROJECT_SETTINGS);
 });
