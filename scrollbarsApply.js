@@ -8,14 +8,14 @@
 define(function (require) {
     "use strict";
 
-    var settings = require("settings");
-    var enableScrollbars = settings.getValue("enableScrollbars");
+    var Settings = require("Settings");
+    var enableScrollbars = Settings.getValue("enableScrollbars");
     var $scrollbars = $("<style id='scrollbars'>").appendTo("head");
     var theme;
 
 
     if ( enableScrollbars === undefined ) {
-        settings.setValue("enableScrollbars", true);
+        Settings.setValue("enableScrollbars", true);
     }
 
 
@@ -26,7 +26,7 @@ define(function (require) {
 
     scrollbarsApply.update = function(themeManager) {
         theme = themeManager ? themeManager.getThemes()[0] : (theme || {});
-        if ( settings.getValue("enableScrollbars") ) {
+        if ( Settings.getValue("enableScrollbars") ) {
             var scrollbar = (theme.scrollbar || []).join(" ");
             $scrollbars.text(scrollbar || "");
         }
@@ -37,18 +37,18 @@ define(function (require) {
 
 
     scrollbarsApply.enable = function(themeManager) {
-        settings.setValue("enableScrollbars", true);
+        Settings.setValue("enableScrollbars", true);
         scrollbarsApply.update(themeManager);
     };
 
 
     scrollbarsApply.disable = function(themeManager) {
-        settings.setValue("enableScrollbars", true);
+        Settings.setValue("enableScrollbars", true);
         scrollbarsApply.update(themeManager);
     };
 
 
-    $(settings).on("change:enableScrollbars", function() {
+    $(Settings).on("change:enableScrollbars", function() {
         scrollbarsApply.update();
     });
 

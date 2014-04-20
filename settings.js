@@ -15,27 +15,28 @@ define(function (require) {
         _settings          = PreferencesManager.getExtensionPrefs(PREFERENCES_KEY);
 
 
-    var settings = {};
+    function Settings() {
+    }
 
-    settings.open = function() {
-        SettingsDialog.open(settings);
+    Settings.open = function() {
+        SettingsDialog.open(Settings);
     };
 
-    settings.close = function() {
+    Settings.close = function() {
         SettingsDialog.close();
     };
 
-    settings.getValue = function() {
+    Settings.getValue = function() {
         return _settings.get.apply(_settings, arguments);
     };
 
-    settings.setValue = function() {
+    Settings.setValue = function() {
         _settings.set.apply(_settings, arguments);
-        $(settings).trigger("change", arguments);
-        $(settings).trigger("change:" + arguments[0], [arguments[1]]);
+        $(Settings).trigger("change", arguments);
+        $(Settings).trigger("change:" + arguments[0], [arguments[1]]);
     };
 
-    settings.getAll = function() {
+    Settings.getAll = function() {
         var pathLength = _settings.prefix.length;
         var prefix = _settings.prefix;
 
@@ -46,5 +47,5 @@ define(function (require) {
         });
     };
 
-    return settings;
+    return Settings;
 });

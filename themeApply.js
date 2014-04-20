@@ -13,7 +13,7 @@ define(function() {
     /**
     *  Handles updating codemirror with the current selection of themes.
     */
-    function themeApply (themeManager, cm) {
+    function ThemeApply (themeManager, cm) {
         var newThemes     = themeManager.selected.join(" "),
             currentThemes = cm.getOption("theme");
 
@@ -28,5 +28,5 @@ define(function() {
         $(ExtensionUtils).trigger("Themes.themeChanged", themeManager.getThemes());
     }
 
-    return themeApply;
+    return ThemeApply;
 });

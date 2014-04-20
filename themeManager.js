@@ -12,14 +12,14 @@ define(function (require) {
     var EditorManager  = brackets.getModule("editor/EditorManager"),
         FileSystem     = brackets.getModule("filesystem/FileSystem");
 
-    var settings            = require("settings"),
-        Theme               = require("theme"),
+    var settings            = require("Settings"),
+        Theme               = require("Theme"),
         themeSettings       = require("views/settings"),
-        themeFiles          = require("themeFiles"),
-        themeApply          = require("themeApply"),
-        scrollbarsApply     = require("scrollbarsApply"),
-        generalSettings     = require("generalSettings"),
-        viewCommandsManager = require("viewCommandsManager");
+        themeFiles          = require("ThemeFiles"),
+        themeApply          = require("ThemeApply"),
+        scrollbarsApply     = require("ScrollbarsApply"),
+        generalSettings     = require("GeneralSettings"),
+        viewCommandsManager = require("ViewCommandsManager");
 
     var themeManager = {
         selected: settings.getValue("theme"),

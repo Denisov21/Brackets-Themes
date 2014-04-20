@@ -8,25 +8,26 @@
 define(function (require) {
     "use strict";
 
-    var settings = require("settings"),
-        defaults = require("defaults"),
-        fontSize = settings.getValue("fontSize"),
-        fontType = settings.getValue("fontType"),
-        lineHeight = settings.getValue("lineHeight"),
+    var Settings = require("Settings"),
+        Defaults = require("Defaults");
+
+    var fontSize = Settings.getValue("fontSize"),
+        fontType = Settings.getValue("fontType"),
+        lineHeight = Settings.getValue("lineHeight"),
         $lineHeight = $("<style type='text/css' id='lineHeight'>").appendTo("head"),
         $fontSize = $("<style type='text/css' id='fontSize'>").appendTo("head"),
         $fontType = $("<style type='text/css' id='fontType'>").appendTo("head");
 
     if (fontSize === undefined) {
-        settings.setValue("fontSize", defaults.FONT_SIZE + "px");
+        Settings.setValue("fontSize", Defaults.FONT_SIZE + "px");
     }
 
     if (lineHeight === undefined) {
-        settings.setValue("lineHeight", defaults.LINE_HEIGHT);
+        Settings.setValue("lineHeight", Defaults.LINE_HEIGHT);
     }
 
     if (fontType === undefined) {
-        settings.setValue("fontType", "'SourceCodePro-Medium', ＭＳ ゴシック, 'MS Gothic', monospace");
+        Settings.setValue("fontType", "'SourceCodePro-Medium', ＭＳ ゴシック, 'MS Gothic', monospace");
     }
 
 
@@ -35,17 +36,17 @@ define(function (require) {
     }
 
     generalSettings.updateLineHeight = function () {
-        var value = settings.getValue("lineHeight");
+        var value = Settings.getValue("lineHeight");
         $lineHeight.text(".CodeMirror{" + "line-height: " + value + ";}");
     };
 
     generalSettings.updateFontSize = function () {
-        var value = settings.getValue("fontSize");
+        var value = Settings.getValue("fontSize");
         $fontSize.text(".CodeMirror{" + "font-size: " + value + " !important; }");
     };
 
     generalSettings.updateFontType = function () {
-        var value = settings.getValue("fontType");
+        var value = Settings.getValue("fontType");
         $fontType.text(".CodeMirror{" + "font-family: " + value + " !important; }");
     };
 
@@ -58,8 +59,8 @@ define(function (require) {
         generalSettings.updateFontType();
     };
 
-    $(settings).on("change:lineHeight", generalSettings.updateLineHeight);
-    $(settings).on("change:fontSize", generalSettings.updateFontSize);
-    $(settings).on("change:fontType", generalSettings.updateFontType);
+    $(Settings).on("change:lineHeight", generalSettings.updateLineHeight);
+    $(Settings).on("change:fontSize", generalSettings.updateFontSize);
+    $(Settings).on("change:fontType", generalSettings.updateFontType);
     return generalSettings;
 });

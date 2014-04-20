@@ -10,8 +10,8 @@ define(function(require) {
 
     var FileUtils   = brackets.getModule("file/FileUtils"),
         FileSystem  = brackets.getModule("filesystem/FileSystem"),
-        settings    = require("settings"),
-        paths       = settings.getValue("paths");
+        Settings    = require("Settings"),
+        paths       = Settings.getValue("paths");
 
     // Root directory for CodeMirror themes
     var cm_path = FileUtils.getNativeBracketsDirectoryPath() + "/thirdparty/CodeMirror2";
@@ -25,7 +25,7 @@ define(function(require) {
             {path:cm_path + "/theme"}
         ];
 
-        settings.setValue("paths", paths);
+        Settings.setValue("paths", paths);
     }
 
 
@@ -80,10 +80,6 @@ define(function(require) {
 
         return $.when.apply((void 0), directories).promise();
     }
-
-
-    $(settings).on("change:paths", function(evt, value) {
-    });
 
 
     return {

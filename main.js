@@ -8,14 +8,14 @@
 define(function (require, exports, module) {
     "use strict";
 
-    require("string");
-    require("menu");
+    require("String");
+    require("Menu");
 
     var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
         AppInit         = brackets.getModule("utils/AppInit");
 
-    var themeManager     = require("themeManager"),
-        codeMirrorAddons = require("codeMirrorAddons");
+    var ThemeManager     = require("ThemeManager"),
+        CodeMirrorAddons = require("CodeMirrorAddons");
 
     // Load up reset.css to override brackground settings from brackets because
     // they make the themes look really bad.
@@ -23,7 +23,7 @@ define(function (require, exports, module) {
     ExtensionUtils.loadStyleSheet(module, "views/settings.css");
 
     AppInit.appReady(function(){
-        codeMirrorAddons.ready(themeManager.init);
+        CodeMirrorAddons.ready(ThemeManager.init);
     });
 });
 

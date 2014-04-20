@@ -9,15 +9,15 @@
 define(function (require) {
     "use strict";
 
-    var settings = require("settings"),
-        defaults = require("defaults"),
+    var Settings = require("Settings"),
+        Defaults = require("Defaults"),
         ViewCommandHandlers = brackets.getModule("view/ViewCommandHandlers"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
     function viewCommandsManager () {
-        var fontSize = settings.getValue("fontSize"),
+        var fontSize = Settings.getValue("fontSize"),
             fontSizeNumeric = Number(fontSize.replace("px", "")),
-            fontSizeOffset = fontSizeNumeric - defaults.FONT_SIZE;
+            fontSizeOffset = fontSizeNumeric - Defaults.FONT_SIZE;
 
         if(!isNaN(fontSizeOffset)) {
             PreferencesManager.setViewState("fontSizeAdjustment", fontSizeOffset);
@@ -28,7 +28,7 @@ define(function (require) {
     }
 
     viewCommandsManager.handleFontSizeChange = function (evt, adjustment, fontSize /*, lineHeight*/) {
-        settings.setValue("fontSize", fontSize);
+        Settings.setValue("fontSize", fontSize);
     };
 
     return viewCommandsManager;
