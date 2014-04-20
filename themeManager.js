@@ -20,13 +20,45 @@ define(function (require) {
         scrollbarsApply     = require("ScrollbarsApply"),
         viewCommandsManager = require("ViewCommandsManager");
 
-    var ThemeManager = {
-        selected: Settings.getValue("theme"),
-        docMode: "",
-        themes: {}
-    };
-
     var _initted = false;
+
+
+    function ThemeManager() {
+        if ( _initted ) {
+            return;
+        }
+
+        _initted = true;
+
+        // Init themes when files meta data have all been loaded.  By the time
+        // ThemeManager.init has been called, this is generally ready
+        themeFiles.ready(function() {
+            viewCommandsManager();
+
+            var i, length;
+            var args = arguments;
+
+            for ( i = 0, length = args.length; i < length; i++ ) {
+                if ( args[i].error ) {
+                    console.log("=============> Themes error", args[i], args[i].error);
+                    continue;
+                }
+
+                loadThemesFiles(args[i]);
+            }
+
+            ThemeManager.update(true);
+            themeSettings.themes(ThemeManager.themes);
+
+            $(EditorManager).on("activeEditorChange", function() {
+                ThemeManager.update();
+            });
+        });
+    }
+
+    ThemeManager.selected = Settings.getValue("theme");
+    ThemeManager.docMode = "";
+    ThemeManager.themes = {};
 
 
     /**
@@ -139,40 +171,6 @@ define(function (require) {
     ThemeManager.getThemes = function() {
         return _.map(Settings.getValue("theme").slice(0), function (item) {
             return ThemeManager.themes[item];
-        });
-    };
-
-
-    ThemeManager.init = function() {
-        if ( _initted ) {
-            return;
-        }
-
-        _initted = true;
-
-        // Init themes when files meta data have all been loaded.  By the time
-        // ThemeManager.init has been called, this is generally ready
-        themeFiles.ready(function() {
-            viewCommandsManager();
-
-            var i, length;
-            var args = arguments;
-
-            for ( i = 0, length = args.length; i < length; i++ ) {
-                if ( args[i].error ) {
-                    console.log("=============> Themes error", args[i], args[i].error);
-                    continue;
-                }
-
-                loadThemesFiles(args[i]);
-            }
-
-            ThemeManager.update(true);
-            themeSettings.themes(ThemeManager.themes);
-
-            $(EditorManager).on("activeEditorChange", function() {
-                ThemeManager.update();
-            });
         });
     };
 

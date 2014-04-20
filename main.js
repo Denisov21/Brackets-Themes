@@ -23,7 +23,7 @@ define(function (require, exports, module) {
     ExtensionUtils.loadStyleSheet(module, "views/settings.css");
 
     AppInit.appReady(function(){
-        CodeMirrorAddons.ready(ThemeManager.init);
+        CodeMirrorAddons.ready(ThemeManager);
     });
 });
 
