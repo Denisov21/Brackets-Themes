@@ -12,24 +12,22 @@ define(function () {
         $fontSize = $("<style type='text/css' id='fontSize'>").appendTo("head"),
         $fontType = $("<style type='text/css' id='fontType'>").appendTo("head");
 
-    var FontSettings = {};
     var Settings = null;
 
 
-    FontSettings.init = function(_settings) {
+    function FontSettings(_settings) {
         Settings = _settings;
         $(Settings).on("change:lineHeight", FontSettings.updateLineHeight);
         $(Settings).on("change:fontSize", FontSettings.updateFontSize);
         $(Settings).on("change:fontType", FontSettings.updateFontType);
         FontSettings.update();
-    };
+    }
 
 
     FontSettings.updateLineHeight = function () {
         clearFonts();
         var value = Settings.getValue("lineHeight");
         $lineHeight.text(".CodeMirror{" + "line-height: " + value + "; }");
-        $(FontSettings).trigger("change:lineHeight");
     };
 
 
@@ -37,7 +35,6 @@ define(function () {
         clearFonts();
         var value = Settings.getValue("fontSize");
         $fontSize.text(".CodeMirror{" + "font-size: " + value + " !important; }");
-        $(FontSettings).trigger("change:fontSize");
     };
 
 
@@ -45,7 +42,6 @@ define(function () {
         clearFonts();
         var value = Settings.getValue("fontType");
         $fontType.text(".CodeMirror{" + "font-family: " + value + " !important; }");
-        $(FontSettings).trigger("change:fontType");
     };
 
 

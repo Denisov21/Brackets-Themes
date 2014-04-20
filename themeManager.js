@@ -108,10 +108,7 @@ define(function (require) {
             ThemeManager.update(true);
         })
         .on("change:fontSize", function() {
-            console.log("change:fontSize");
-            setTimeout(function() {
-                ThemeManager.update();
-            }, 1000);
+            ThemeManager.update();
         });
 
 

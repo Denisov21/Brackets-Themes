@@ -12,7 +12,7 @@ define(function (require) {
     var PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         Defaults           = require("Defaults"),
         SettingsDialog     = require("views/settings"),
-        FontSettings       = require("FontSettings"),
+        fontSettings       = require("FontSettings"),
         PREFERENCES_KEY    = "brackets-themes",
         _settings          = PreferencesManager.getExtensionPrefs(PREFERENCES_KEY);
 
@@ -88,6 +88,6 @@ define(function (require) {
         Settings.setValue("customScrollbars", Defaults.customScrollbars);
     }
 
-    FontSettings.init(Settings);
+    fontSettings(Settings);
     return Settings;
 });
