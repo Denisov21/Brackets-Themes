@@ -12,17 +12,16 @@ define(function (require) {
     var EditorManager  = brackets.getModule("editor/EditorManager"),
         FileSystem     = brackets.getModule("filesystem/FileSystem");
 
-    var settings            = require("Settings"),
+    var Settings            = require("Settings"),
         Theme               = require("Theme"),
         themeSettings       = require("views/settings"),
         themeFiles          = require("ThemeFiles"),
         themeApply          = require("ThemeApply"),
         scrollbarsApply     = require("ScrollbarsApply"),
-        generalSettings     = require("GeneralSettings"),
         viewCommandsManager = require("ViewCommandsManager");
 
-    var themeManager = {
-        selected: settings.getValue("theme"),
+    var ThemeManager = {
+        selected: Settings.getValue("theme"),
         docMode: "",
         themes: {}
     };
@@ -37,14 +36,14 @@ define(function (require) {
         // Iterate through each name in the themes and make them theme objects
         return _.map(themes.files, function (themeFile) {
             var theme = new Theme({fileName: themeFile, path: themes.path});
-            return (themeManager.themes[theme.name] = theme);
+            return (ThemeManager.themes[theme.name] = theme);
         });
     }
 
 
     function setThemesClass(newThemes) {
-        var oldThemes = themeManager.selected;
-        themeManager.selected = (newThemes = newThemes || []);
+        var oldThemes = ThemeManager.selected;
+        ThemeManager.selected = (newThemes = newThemes || []);
 
         // We gotta prefix theme names with "theme" because themes that start with a number
         // will not render correctly.  Class names that start with a number are invalid
@@ -57,8 +56,8 @@ define(function (require) {
     function setDocumentMode(cm) {
         var mode = cm.getDoc().getMode();
         var docMode = mode && (mode.helperType || mode.name);
-        $("html").removeClass("doctype-" + themeManager.docMode).addClass("doctype-" + docMode);
-        themeManager.docMode = docMode;
+        $("html").removeClass("doctype-" + ThemeManager.docMode).addClass("doctype-" + docMode);
+        ThemeManager.docMode = docMode;
     }
 
 
@@ -95,37 +94,39 @@ define(function (require) {
 
     FileSystem.on("change", function(evt, file) {
         var name = (file.name || "").substring(0, file.name.lastIndexOf('.')),
-            theme = themeManager.themes[name];
+            theme = ThemeManager.themes[name];
 
         if ( theme && theme.getFile().parentPath === file.parentPath ) {
-            themeManager.update(true);
+            ThemeManager.update(true);
         }
     });
 
 
-    $(settings)
-        .on("change:fontSize", function() {
-            themeManager.update();
-        })
+    $(Settings)
         .on("change:theme", function(evt, theme) {
             setThemesClass(theme);
-            themeManager.update(true);
+            ThemeManager.update(true);
+        })
+        .on("change:fontSize", function() {
+            console.log("change:fontSize");
+            setTimeout(function() {
+                ThemeManager.update();
+            }, 1000);
         });
 
 
-    themeManager.update = function(refreshThemes) {
+    ThemeManager.update = function(refreshThemes) {
         var cm = getCM();
         if ( cm ) {
             setDocumentMode(cm);
-            themeApply(themeManager, cm);
+            themeApply(ThemeManager, cm);
             refresh(cm);
         }
 
         if ( refreshThemes === true ) {
-            loadThemes(themeManager.getThemes(), refreshThemes === true).done(function() {
-                setThemesClass(settings.getValue("theme"));
-                generalSettings(themeManager);
-                scrollbarsApply(themeManager);
+            loadThemes(ThemeManager.getThemes(), refreshThemes === true).done(function() {
+                setThemesClass(Settings.getValue("theme"));
+                scrollbarsApply(ThemeManager);
 
                 if ( cm ) {
                     refresh(cm);
@@ -135,14 +136,14 @@ define(function (require) {
     };
 
 
-    themeManager.getThemes = function() {
-        return _.map(settings.getValue("theme").slice(0), function (item) {
-            return themeManager.themes[item];
+    ThemeManager.getThemes = function() {
+        return _.map(Settings.getValue("theme").slice(0), function (item) {
+            return ThemeManager.themes[item];
         });
     };
 
 
-    themeManager.init = function() {
+    ThemeManager.init = function() {
         if ( _initted ) {
             return;
         }
@@ -150,7 +151,7 @@ define(function (require) {
         _initted = true;
 
         // Init themes when files meta data have all been loaded.  By the time
-        // themeManager.init has been called, this is generally ready
+        // ThemeManager.init has been called, this is generally ready
         themeFiles.ready(function() {
             viewCommandsManager();
 
@@ -166,15 +167,15 @@ define(function (require) {
                 loadThemesFiles(args[i]);
             }
 
-            themeManager.update(true);
-            themeSettings.themes(themeManager.themes);
+            ThemeManager.update(true);
+            themeSettings.themes(ThemeManager.themes);
 
             $(EditorManager).on("activeEditorChange", function() {
-                themeManager.update();
+                ThemeManager.update();
             });
         });
     };
 
 
-    return themeManager;
+    return ThemeManager;
 });
